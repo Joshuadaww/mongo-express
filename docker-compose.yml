@@ -1,0 +1,50 @@
+version: '3.9'
+services:
+  mongo-express:
+    build:
+      context: ./          
+    image: mongo-express
+    container_name: 'mongo-express'
+    restart: always
+    depends_on:
+      - mongo
+    ports:
+      - "0.0.0.0:3000:8081"
+    env_file:
+      - ./src/env/mongo-express-dev.env
+    volumes:
+      - type: bind
+        source: ./src/wait-for/wait-for.sh
+        target: /wait-for.sh
+    entrypoint:
+      - /bin/sh
+      - /wait-for.sh
+      - mongo:27017
+      - --
+      - tini
+      - --
+      - /docker-entrypoint.sh
+    networks:
+      - backend
+   
+  mongo:
+    build:
+      context: ./
+    image: mongo
+    container_name: 'mongodb'
+    restart: always
+    ports:
+      - "0.0.0.0:27017:27017"
+    volumes:
+      - type: bind
+        source: ./.docker/conf/mongo_configdb
+        target: /data/configd       
+      - type: bind
+        source: ./src/data
+        target: /data/db
+    networks:
+      - backend
+
+networks:
+  backend:
+    driver: bridge
