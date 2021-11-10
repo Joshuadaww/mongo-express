@@ -1,0 +1,15 @@
+FROM mongo:2.6.10
+
+MAINTAINER Dhony Priniardi abu muhammad <dhony.priniardi@bintangpelajar.co.id>
+   LABEL Name mongodb
+   LABEL Version 1.0
+   LABEL Type database
+   LABEL Vendor mongo
+
+
+#RUN apk update && \
+#    apk add --no-cache \
+#          vim curl lynx iproute2 net-tools \
+#          unzip tzdata
+
+#ENV TZ=Asia/Jakarta

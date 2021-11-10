@@ -19,7 +19,7 @@ services:
     entrypoint:
       - /bin/sh
       - /wait-for.sh
-      - mongo:27017
+      - mongo:27000
       - --
       - tini
       - --
@@ -30,11 +30,12 @@ services:
   mongo:
     build:
       context: ./
+      dockerfile: .docker/Dockerfile-mongodb
     image: mongo
     container_name: 'mongodb'
     restart: always
     ports:
-      - "0.0.0.0:27017:27017"
+      - "0.0.0.0:27000:27017"
     volumes:
       - type: bind
         source: ./.docker/conf/mongo_configdb
