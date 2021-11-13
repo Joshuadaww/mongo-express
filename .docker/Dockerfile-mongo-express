@@ -1,8 +1,8 @@
-FROM mongo:latest
+FROM mongo-express:latest
 
 MAINTAINER Dhony Priniardi abu muhammad <dhony.priniardi@bintangpelajar.co.id>
-   LABEL Name mongodb
-   LABEL Version 1.0
+   LABEL Name mongo-express
+   LABEL Version latest
    LABEL Type database
    LABEL Vendor mongo
 

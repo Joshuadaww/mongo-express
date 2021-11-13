@@ -2,14 +2,18 @@ version: '3.9'
 services:
   mongo-express:
     build:
-      context: ./          
-    image: mongo-express
-    container_name: 'mongo-express'
+      context: ./     
+      dockerfile: .docker/Dockerfile-mongo-express     
+    image: mongo-express-srv:v1.0
+    container_name: 'mongo-express-srv'
     restart: always
     depends_on:
-      - mongo
+      - mongo   
+    mem_limit: 2048M
+    mem_reservation: 1024M
+    cpus: 2        
     ports:
-      - "0.0.0.0:3000:8081"
+      - "0.0.0.0:3000:8081"        
     env_file:
       - ./src/env/mongo-express-dev.env
     volumes:
@@ -19,7 +23,7 @@ services:
     entrypoint:
       - /bin/sh
       - /wait-for.sh
-      - mongo:27000
+      - mongo:27017
       - --
       - tini
       - --
@@ -31,11 +35,14 @@ services:
     build:
       context: ./
       dockerfile: .docker/Dockerfile-mongodb
-    image: mongo
-    container_name: 'mongodb'
-    restart: always
+    image: mongo-srv:v1.0
+    container_name: 'mongodb-srv'
+    restart: always   
+    mem_limit: 2048M
+    mem_reservation: 1024M
+    cpus: 2    
     ports:
-      - "0.0.0.0:27000:27017"
+      - "0.0.0.0:27100:27017"
     volumes:
       - type: bind
         source: ./.docker/conf/mongo_configdb
